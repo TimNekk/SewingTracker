@@ -8,6 +8,12 @@ class ModelHistory:
         self.model_name = model_name
         self.points = history_points
 
+    @property
+    def latest_point(self) -> HistoryPoint:
+        if len(self.points) == 0:
+            raise ValueError(f"Model \"{self.model_name}\" has no history")
+        return self.points[-1]
+
     def create_new_history_point(self) -> None:
         from loader import db
         sql = f"INSERT INTO \"{self.model_name}\" (date) VALUES (datetime('now', 'localtime'))"

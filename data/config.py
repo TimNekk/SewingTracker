@@ -8,6 +8,7 @@ env.read_env()
 
 input_path = env.str('input_xlsx_file_path')
 
+
 @dataclass
 class Email:
     receiver = env.str('receiver_email')

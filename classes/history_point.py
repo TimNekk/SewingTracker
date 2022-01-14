@@ -6,7 +6,7 @@ class HistoryPoint:
         self.model_name = model_name
         self.date = datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
 
-        self.prices = None
+        self.prices: dict
         self._set_markets(*args)
 
     def _set_markets(self, *args) -> None:

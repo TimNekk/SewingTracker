@@ -43,6 +43,11 @@ class Model:
 
             history.update_last_history_point(market_name, price)
 
+    def get_market_price(self, market_name: str) -> int:
+        history = self._get_history()
+        return history.latest_point.prices.get(market_name)
+
+
     def add_market(self, market_name: str) -> None:
         self._modify_market(market_name, add=True)
 
