@@ -9,23 +9,45 @@ from openpyxl.styles import Font
 from openpyxl.worksheet.worksheet import Worksheet
 
 
-
 class ExcelHandler:
-    def __init__(self, input_file_path: str):
-
+    def __init__(self, input_file_path: str, input_sheet_name: str = "input", models_start_cell: tuple = (1, 3), models_end_cell: tuple = (2, 100)):
         self.file = input_file_path
-        from classes import Model
+        self.workbook
 
+        self.models_start_cell = models_start_cell
+        self.models_end_cell = models_end_cell
 
-    def get_workbook(self) -> Workbook:
+        self.input_sheet_name = input_sheet_name
+        self._check_input_sheet()
+
+    def _check_input_sheet(self):
+        if self.input_sheet_name not in self.workbook.sheetnames:
+            raise ValueError(f"Input sheet \"{self.input_sheet_name}\" not found!")
+
+    @property
+    def workbook(self) -> Workbook:
         return openpyxl.load_workbook(self.file)
 
-    def save(self, workbook: Workbook):
+    @property
+    def input_sheet(self) -> Worksheet:
+        return self.workbook[self.input_sheet_name]
+
+    def save(self, workbook: Workbook) -> None:
         try:
             workbook.save(self.file)
         except PermissionError:
             print(f'Закройте файл {self.file}')
 
+    def get_models(self) -> dict[str: int]:
+        sheet = self.input_sheet
+
+        models_rows = filter(lambda row: row[0] is not None, sheet.iter_rows(min_col=self.models_start_cell[0],
+                                      min_row=self.models_start_cell[1],
+                                      max_col=self.models_end_cell[0],
+                                      max_row=self.models_end_cell[1],
+                                      values_only=True))
+
+        return dict(models_rows)
 
 # def load(products: List[Product], filename: str):
 #     output = []
