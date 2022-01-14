@@ -41,11 +41,15 @@ class ExcelHandler:
     def get_models(self) -> dict[str: int]:
         sheet = self.input_sheet
 
-        models_rows = filter(lambda row: row[0] is not None, sheet.iter_rows(min_col=self.models_start_cell[0],
-                                      min_row=self.models_start_cell[1],
-                                      max_col=self.models_end_cell[0],
-                                      max_row=self.models_end_cell[1],
-                                      values_only=True))
+        models_rows = map(lambda row: (row[0], 0 if row[1] is None else row[1]),
+                                       filter(lambda row: row[0] is not None,
+                                              sheet.iter_rows(min_col=self.models_start_cell[0],
+                                                              min_row=self.models_start_cell[1],
+                                                              max_col=self.models_end_cell[0],
+                                                              max_row=self.models_end_cell[1],
+                                                              values_only=True)
+                                              )
+                                       )
 
         return dict(models_rows)
 

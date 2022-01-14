@@ -2,10 +2,23 @@ from loader import db
 from data.config import input_path
 from excel.excel import ExcelHandler
 
-if __name__ == '__main__':
+
+def export_models_from_excel_to_db():
     excel = ExcelHandler(input_path)
-    model = db.get_model(1)
-    db.remove_market("test 333")
+    for name, price in excel.get_models().items():
+        try:
+            db.add_model(name, price)
+        except ValueError as e:
+            print(e)
+
+
+if __name__ == '__main__':
+    try:
+        db.get_model("Merrylock 220").update_prices()
+    except ValueError as e:
+        print(e)
+
+# TODO: Узнать, нужно ли брать цену которой нет на сайте
 
 # def update_products():
 #     products = get_products_from_sewing_kingdom()

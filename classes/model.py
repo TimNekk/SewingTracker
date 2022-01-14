@@ -10,6 +10,9 @@ class Model:
         self.markets = {}
         self._set_markets(*args)
 
+    def __str__(self):
+        return f"Model \"{self.name}\""
+
     def _set_markets(self, *args) -> None:
         from loader import db
         self.markets = {name: url for name, url in zip(db.markets, args)}
@@ -29,6 +32,9 @@ class Model:
 
         from loader import ph
         for market_name, model_url in self.markets.items():
+            if model_url is None:
+                raise ValueError(f"Url for model \"{self.name}\" for market \"{market_name}\" not found")
+
             try:
                 price = ph.parse(market_name, model_url)
             except Exception as e:

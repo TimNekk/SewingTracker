@@ -1,10 +1,11 @@
-from parsing.websites import MvideoParser, Parser
+from parsing.websites import *
 
 
 class ParsersHandler:
     def __init__(self):
         self.parsers = {
-            "mvideo": MvideoParser()
+            "mvideo": MvideoParser,
+            "shvei-mash": ShveiMashParser
         }
 
     def parse(self, market_name: str, model_url: str) -> int:
@@ -16,4 +17,4 @@ class ParsersHandler:
         parser = self.parsers.get(market_name)
         if parser is None:
             raise ValueError(f"No parser found for market \"{market_name}\"")
-        return parser
+        return parser()

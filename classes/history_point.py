@@ -15,5 +15,5 @@ class HistoryPoint:
 
     def update(self, market_name: str, price: int) -> None:
         from loader import db
-        sql = f"UPDATE \"{self.model_name}\" SET {market_name} = {price} WHERE date = \"{self.date}\""
+        sql = f"UPDATE \"{self.model_name}\" SET \"{market_name}\" = {price} WHERE date = \"{self.date}\""
         db.execute(sql, commit=True)
