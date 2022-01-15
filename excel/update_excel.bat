@@ -1,4 +1,5 @@
-call cd "D:\PyCharm Projects\sewing-tracker"
+call E:
+call cd "E:\Coding\PycharmProjects\sewing-tracker"
 call "venv\Scripts\activate.bat"
 call python app.py
 call "excel\input.xlsm"

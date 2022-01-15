@@ -1,3 +1,5 @@
+import logging
+
 from parsing.websites import *
 
 
@@ -10,7 +12,9 @@ class ParsersHandler:
 
     def parse(self, market_name: str, model_url: str) -> int:
         parser = self._get_parser(market_name)
+        logging.info(f"Parsing {model_url} in {market_name}...")
         parse_result = parser.parse(model_url)
+        logging.info("Done!")
         return parse_result
 
     def _get_parser(self, market_name: str) -> Parser:

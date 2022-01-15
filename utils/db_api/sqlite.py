@@ -11,7 +11,6 @@ class Database:
 
     @property
     def connection(self):
-        print(self.path_to_db)
         return sqlite3.connect(self.path_to_db)
 
     def execute(self, sql: str, parameters: tuple = tuple(), fetchone=False,
@@ -69,7 +68,7 @@ class Database:
         return list(map(lambda name: name[0], data[3:]))
 
     def _get_tables_names(self) -> List[str]:
-        sql = f"SELECT name FROM sqlite_master WHERE type='table';"
+        sql = f"SELECT name FROM sqlite_master WHERE type='table'"
         data = self.execute(sql, fetchall=True)
         return list(map(lambda name: name[0], data))
 

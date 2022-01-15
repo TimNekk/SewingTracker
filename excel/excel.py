@@ -1,3 +1,4 @@
+import logging
 from typing import Union
 
 import openpyxl
@@ -36,7 +37,7 @@ class ExcelHandler:
         try:
             workbook.save(self.file)
         except PermissionError:
-            print(f'Закройте файл {self.file}')
+            logging.error(f"Close file {self.file}")
 
     def get_models(self) -> dict[str: int]:
         sheet = self.input_sheet

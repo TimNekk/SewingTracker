@@ -1,3 +1,6 @@
+import logging
+import sys
+
 from loader import db
 from data.config import input_path
 from excel.excel import ExcelHandler
@@ -6,20 +9,33 @@ from excel.excel import ExcelHandler
 class App:
     def __init__(self, excel_input_path: str):
         self.excel = ExcelHandler(excel_input_path)
+        logging.info("App Initialized")
 
     def export_prices_form_db_to_excel(self) -> None:
-        for model in db.get_models():
+        logging.info("Exporting prices form db to excel")
+
+        models = db.get_models()
+        for index, model in enumerate(models):
+            logging.info(f"{index}/{len(models)} Exporting model \"{model.name}\"...")
+
             for market in db.markets:
+                history = model.get_history()
                 try:
-                    price = model.get_market_price(market)
+                    price = history.latest_point.prices.get(market)
                 except ValueError as e:
-                    print(e)
+                    logging.error(e)
                     continue
                 self.excel.edit_model_market_cell(model_name=model.name, market_name=market, value=price)
 
+            logging.info("Done!")
+
     @staticmethod
     def update_models() -> None:
-        for model in db.get_models():
+        logging.info("Updating models...")
+
+        models = db.get_models()
+        for index, model in enumerate(models):
+            logging.info(f"{index+1}/{len(models)} Updating model \"{model.name}\"")
             model.update_prices()
 
     def export_models_from_excel_to_db(self) -> None:
@@ -31,9 +47,9 @@ class App:
 
 
 if __name__ == '__main__':
+    logging.info(f"Started with params {sys.argv[1:]}")
     app = App(input_path)
-    # excel = ExcelHandler(input_path)
-    # print(excel.save(excel.workbook))
+    app.update_models()
     app.export_prices_form_db_to_excel()
 
 
@@ -43,8 +59,6 @@ if __name__ == '__main__':
     #     excel.edit_model_market_cell(model.name, list(model.markets.keys())[0], "test")
     # except ValueError as e:
     #     print(e)
-
-# TODO: Узнать, нужно ли брать цену которой нет на сайте
 
 # def update_products():
 #     products = get_products_from_sewing_kingdom()

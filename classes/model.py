@@ -1,3 +1,5 @@
+import logging
+
 from classes import ModelHistory, HistoryPoint
 
 
@@ -17,7 +19,7 @@ class Model:
         from loader import db
         self.markets = {name: url for name, url in zip(db.markets, args)}
 
-    def _get_history(self) -> ModelHistory:
+    def get_history(self) -> ModelHistory:
         from loader import db
         sql = f"SELECT * FROM \"{self.name}\""
         data = db.execute(sql, fetchall=True)
@@ -27,26 +29,24 @@ class Model:
         self._update("price", amount)
 
     def update_prices(self) -> None:
-        history = self._get_history()
+        history = self.get_history()
         history.create_new_history_point()
 
         from loader import ph
         for market_name, model_url in self.markets.items():
             if model_url is None:
-                raise ValueError(f"Url for model \"{self.name}\" for market \"{market_name}\" not found")
+                logging.warning(f"Url for model \"{self.name}\" for market \"{market_name}\" not found")
+                continue
 
             try:
                 price = ph.parse(market_name, model_url)
             except Exception as e:
-                print(e)
+                logging.error(e)
                 continue
-
             history.update_last_history_point(market_name, price)
 
-    def get_market_price(self, market_name: str) -> int:
-        history = self._get_history()
+    def get_market_price(self, market_name: str, history: ModelHistory) -> int:
         return history.latest_point.prices.get(market_name)
-
 
     def add_market(self, market_name: str) -> None:
         self._modify_market(market_name, add=True)

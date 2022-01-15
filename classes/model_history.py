@@ -1,3 +1,4 @@
+import logging
 from typing import List
 
 from classes.history_point import HistoryPoint
@@ -21,6 +22,7 @@ class ModelHistory:
 
         point = self._get_last_history_point()
         self.points.append(point)
+        logging.info(f"New history point created for model \"{self.model_name}\"")
 
     def _get_last_history_point(self) -> HistoryPoint:
         from loader import db
