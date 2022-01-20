@@ -28,8 +28,6 @@ class MvideoParser(Parser):
         return self._send_get_request(self._base_url).cookies
 
     def parse(self, url: str) -> int:
-        soup = self._get_soup(url)
-
         product_id = self._get_product_id(url)
         params = self._get_parse_params(product_id)
         cookies = self._get_cookies()

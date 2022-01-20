@@ -7,7 +7,13 @@ class ParsersHandler:
     def __init__(self):
         self.parsers = {
             "mvideo": MvideoParser,
-            "shvei-mash": ShveiMashParser
+            "shvei-mash": ShveiMashParser,
+            "sewing-kingdom": SewingKingdomParser,
+            "sewingking": SewingKingParser,
+            "textiletorg": TextiletorgParser,
+            "ozon-sewing-store": OzonParser,
+            "ozon-gg": OzonParser,
+            "wildberries": WildberriesParser,
         }
 
     def parse(self, market_name: str, model_url: str) -> int:

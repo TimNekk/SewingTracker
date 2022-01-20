@@ -25,7 +25,7 @@ class Parser:
 
         resp = session.get(url, params=params)
         if resp.status_code != 200:
-            raise ConnectionError(resp.text)
+            raise ConnectionError(resp)
         return resp
 
     @property
