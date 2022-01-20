@@ -7,6 +7,7 @@ env = Env()
 env.read_env()
 
 input_path = env.str('input_xlsx_file_path')
+open_model_history_path = env.str('open_model_history_path')
 
 
 @dataclass

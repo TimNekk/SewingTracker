@@ -2,13 +2,13 @@ import logging
 import sys
 
 from loader import db
-from data.config import input_path
+from data.config import input_path, open_model_history_path
 from excel.excel import ExcelHandler
 
 
 class App:
-    def __init__(self, excel_input_path: str):
-        self.excel = ExcelHandler(excel_input_path)
+    def __init__(self, excel_input_path: str, open_model_history_file: str):
+        self.excel = ExcelHandler(excel_input_path, open_model_history_file)
         logging.info("App Initialized")
 
     def export_prices_form_db_to_excel(self) -> None:
@@ -25,15 +25,17 @@ class App:
                 except ValueError as e:
                     logging.error(e)
                     continue
-                self.excel.edit_model_market_cell(model_name=model.name, market_name=market, value=price)
 
-            logging.info("Done!")
+                if price is not None:
+                    self.excel.edit_model_market_cell(model_name=model.name, market_name=market, value=price)
+
+        self.excel.save()
 
     @staticmethod
     def update_models() -> None:
         logging.info("Updating models...")
 
-        models = db.get_models()
+        models = tuple(filter(lambda model: model.has_markets, db.get_models()))
         for index, model in enumerate(models):
             logging.info(f"{index+1}/{len(models)} Updating model \"{model.name}\"")
             model.update_prices()
@@ -43,15 +45,26 @@ class App:
             try:
                 db.add_model(name, price)
             except ValueError as e:
-                print(e)
+                logging.error(e)
 
 
 if __name__ == '__main__':
-    logging.info(f"Started with params {sys.argv[1:]}")
-    app = App(input_path)
-    app.update_models()
-    app.export_prices_form_db_to_excel()
+    args = dict(map(lambda arg: tuple(arg.split("=")), sys.argv[1:]))
+    mode = args.get("mode")
+    logging.info(f"Started with params {args}")
 
+    app = App(input_path, open_model_history_path)
+
+    if mode == "update":
+        app.update_models()
+        app.export_prices_form_db_to_excel()
+    elif mode == "model":
+        app.excel.create_temp_model_file(db.get_model(args.get("model")), args.get("market"))
+    elif mode == "add_market":
+        db.add_market(input("Введите название магазина: "))
+    else:
+        from parsing.parsers_handler import ParsersHandler
+        print(ParsersHandler().parse("wildberries", "https://www.wildberries.ru/catalog/18507637/detail.aspx"))
 
     # excel = ExcelHandler(input_path)
     # try:

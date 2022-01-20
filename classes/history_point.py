@@ -11,7 +11,7 @@ class HistoryPoint:
 
     def _set_markets(self, *args) -> None:
         from loader import db
-        self.prices = {name: url for name, url in zip(db.markets, args)}
+        self.prices = {name: price for name, price in zip(db.markets, args)}
 
     def update(self, market_name: str, price: int) -> None:
         from loader import db

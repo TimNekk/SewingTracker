@@ -28,6 +28,10 @@ class Model:
     def set_price(self, amount: int) -> None:
         self._update("price", amount)
 
+    @property
+    def has_markets(self) -> bool:
+        return any(self.markets.values())
+
     def update_prices(self) -> None:
         history = self.get_history()
         history.create_new_history_point()
