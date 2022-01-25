@@ -3,3 +3,4 @@ beautifulsoup4
 openpyxl
 environs
 schedule
+fuzzywuzzy

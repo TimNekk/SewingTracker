@@ -27,7 +27,7 @@ class MvideoParser(Parser):
     def _get_cookies(self) -> RequestsCookieJar:
         return self._send_get_request(self._base_url).cookies
 
-    def parse(self, url: str) -> int:
+    def parse_model(self, url: str) -> int:
         product_id = self._get_product_id(url)
         params = self._get_parse_params(product_id)
         cookies = self._get_cookies()

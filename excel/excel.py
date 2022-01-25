@@ -4,6 +4,7 @@ from tempfile import gettempdir
 from typing import Union, Optional
 
 import openpyxl
+from openpyxl.cell import Cell
 from openpyxl.styles import Font
 from openpyxl.worksheet.worksheet import Worksheet
 
@@ -153,3 +154,8 @@ class ExcelHandler:
         sheet = self.input_sheet
         models_names_column = list(map(lambda cell: cell.value, list(sheet.columns)[self.models_names_column - 1]))
         return models_names_column.index(model_name) + 1
+
+    def add_model(self, model_name: str) -> None:
+        sheet = self.input_sheet
+        empty_cell: Cell = list(filter(lambda cell: cell[0].value == None, sheet.iter_rows(4, max_row=sheet.max_row, min_col=1, max_col=1)))[0][0]
+        empty_cell.value = model_name

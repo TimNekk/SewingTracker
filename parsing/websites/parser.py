@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 
 from bs4 import BeautifulSoup
 from requests import Session, Response
@@ -8,7 +8,10 @@ from data.config import default_headers
 
 
 class Parser:
-    def parse(self, url: str) -> int:
+    def parse_model(self, url: str) -> int:
+        raise NotImplemented
+
+    def parse_market(self, url: str) -> dict[str, str]:
         raise NotImplemented
 
     def _get_soup(self, url: str, params: Optional[dict] = None, headers: Optional[dict] = None, cookies: Optional[RequestsCookieJar] = None) -> BeautifulSoup:

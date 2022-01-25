@@ -1,4 +1,5 @@
 import logging
+from typing import Optional
 
 from classes import ModelHistory, HistoryPoint
 
@@ -32,18 +33,21 @@ class Model:
     def has_markets(self) -> bool:
         return any(self.markets.values())
 
-    def update_prices(self) -> None:
+    def update_prices(self, market: Optional[str] = None) -> None:
         history = self.get_history()
         history.create_new_history_point()
 
         from loader import ph
         for market_name, model_url in self.markets.items():
+            if market is not None and market_name != market:
+                continue
+
             if model_url is None:
                 logging.warning(f"Url for model \"{self.name}\" for market \"{market_name}\" not found")
                 continue
 
             try:
-                price = ph.parse(market_name, model_url)
+                price = ph.parse_model(market_name, model_url)
             except Exception as e:
                 logging.error(e)
                 continue

@@ -1,6 +1,9 @@
 import logging
+import re
 import sqlite3
 from typing import Optional, List
+
+from fuzzywuzzy import process
 
 from classes import Model
 
@@ -20,7 +23,10 @@ class Database:
         connection.set_trace_callback(self.log)
         cursor = connection.cursor()
 
-        cursor.execute(sql, parameters)
+        try:
+            cursor.execute(sql, parameters)
+        except sqlite3.OperationalError as e:
+            logging.error(f"{e}\n{sql}\n{parameters}")
 
         if commit:
             connection.commit()
@@ -92,7 +98,7 @@ class Database:
         for model in self.get_models():
             model.remove_market(name)
 
-    def add_model(self, name, price):
+    def add_model(self, name, price: int = 0):
         if name in self.get_models_names():
             raise ValueError(f"Model \"{name}\" already exists")
 
@@ -105,3 +111,22 @@ class Database:
         model = self.get_model(name)
         for market in self.markets:
             model.add_market(market)
+
+    def get_real_model_name(self, assumed_model_name) -> (bool, str):
+        models_names = tuple(map(lambda model: model.name, self.get_models()))
+
+        assumed_model_name_eng = re.sub(r"[а-яА-Я]+", "", assumed_model_name).strip()
+
+        while "  " in assumed_model_name_eng:
+            assumed_model_name_eng = assumed_model_name_eng.replace("  ", " ")
+
+        close_one = process.extractOne(assumed_model_name_eng, models_names)
+        contained_names = tuple(filter(lambda model: model.lower() in assumed_model_name_eng.lower() or
+                                                     assumed_model_name_eng.lower() in model.lower(), models_names))
+
+        print(f"На сайте: \"{assumed_model_name}\"\nВхождение: {contained_names}\nАлгоритм: \"{close_one[0]}\"\nУверенность: {close_one[1]}")
+
+        if close_one[0] in contained_names:
+            return False, close_one[0]
+
+        return close_one[1] < 95, assumed_model_name_eng

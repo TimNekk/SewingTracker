@@ -3,9 +3,9 @@ import re
 from parsing.websites import Parser
 
 
-class SewingKingParser(Parser):
+class ShveiMashSpbParser(Parser):
     def __init__(self):
-        self._price_selector = ".product-info .form-group .list-unstyled .update_price, .product-info .form-group .list-unstyled .update_special"
+        self._price_selector = "#catalog_element .wrapper_price .price"
 
     def parse_model(self, url: str) -> int:
         soup = self._get_soup(url)

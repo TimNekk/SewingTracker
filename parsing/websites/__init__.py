@@ -1,6 +1,7 @@
 from .parser import Parser
 from .mvideo import MvideoParser
 from .shveimash import ShveiMashParser
+from .shveimashspb import ShveiMashSpbParser
 from .sewing_kingdom import SewingKingdomParser
 from .sewingking import SewingKingParser
 from .textiletorg import TextiletorgParser
