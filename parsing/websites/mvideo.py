@@ -10,6 +10,7 @@ class MvideoParser(Parser):
     def __init__(self):
         self._base_url = "https://www.mvideo.ru/"
         self._price_url = self._base_url + "bff/products/prices"
+        self._status_url = self._base_url + "bff/product-details/status"
 
     @staticmethod
     def _get_product_id(url: str) -> int:
@@ -32,6 +33,8 @@ class MvideoParser(Parser):
         params = self._get_parse_params(product_id)
         cookies = self._get_cookies()
 
-        response = self._send_get_request(self._price_url, params=params, cookies=cookies).json()
-        return response.get("body").get("materialPrices")[0].get("price").get("salePrice")
+        response = self._send_get_request(self._status_url, params=params, cookies=cookies).json()
+        if response.get("body").get("status").get("showPrice"):
+            response = self._send_get_request(self._price_url, params=params, cookies=cookies).json()
+            return response.get("body").get("materialPrices")[0].get("price").get("salePrice")
 
