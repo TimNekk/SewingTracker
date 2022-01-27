@@ -4,6 +4,8 @@
 __pycache__/
 *.py[cod]
 *$py.class
+Запуск Price Analytics.bat
+Добавление магазина.bat
 
 # C extensions
 *.so
