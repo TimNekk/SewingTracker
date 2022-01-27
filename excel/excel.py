@@ -34,10 +34,6 @@ class ExcelHandler:
         if self.input_sheet_name not in self.workbook.sheetnames:
             raise ValueError(f"Input sheet \"{self.input_sheet_name}\" not found!")
 
-    # @property
-    # def workbook(self) -> Workbook:
-    #     return openpyxl.load_workbook(self.file, keep_vba=True)
-
     def save(self):
         self.workbook.save(self.file)
 
@@ -81,7 +77,7 @@ class ExcelHandler:
 
     @staticmethod
     def _load_market_prices(sheet: Worksheet, history: ModelHistory, market: str) -> None:
-        points = history.points
+        points = tuple(filter(lambda point: point.prices.get(market), history.points))
         sheet["A1"].font = Font(bold=True)
 
         # First point
