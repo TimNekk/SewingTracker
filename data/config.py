@@ -10,13 +10,6 @@ input_path = env.str('input_xlsx_file_path')
 open_model_history_path = env.str('open_model_history_path')
 
 
-@dataclass
-class Email:
-    receiver = env.str('receiver_email')
-    sender = env.str('sender_email')
-    password = env.str('sender_email_password')
-
-
 default_headers = {
     "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.85 YaBrowser/21.11.1.932 Yowser/2.5 Safari/537.36",
     "referer": "https://www.mvideo.ru/product-list-page?q=sadf+sadf&category=vstraivaemye-holodilniki-100"
