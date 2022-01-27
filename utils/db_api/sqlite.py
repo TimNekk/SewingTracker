@@ -88,7 +88,7 @@ class Database:
         for model in self.get_models():
             model.add_market(name)
 
-    def remove_market(self, name):
+    def remove_market(self, name: str) -> None:
         if name not in self.markets:
             raise ValueError(f"Market \"{name}\" does not exist")
 
@@ -98,7 +98,7 @@ class Database:
         for model in self.get_models():
             model.remove_market(name)
 
-    def add_model(self, name, price: int = 0):
+    def add_model(self, name: str, price: int = 0) -> Model:
         if name in self.get_models_names():
             raise ValueError(f"Model \"{name}\" already exists")
 
@@ -111,6 +111,15 @@ class Database:
         model = self.get_model(name)
         for market in self.markets:
             model.add_market(market)
+
+        return model
+
+    def remove_model(self, name: str) -> None:
+        sql = f"DELETE FROM models WHERE name=\"{name}\""
+        self.execute(sql, commit=True)
+
+        sql = f"DROP TABLE \"{name}\""
+        self.execute(sql, commit=True)
 
     def get_real_model_name(self, assumed_model_name) -> (bool, str):
         models_names = tuple(map(lambda model: model.name, self.get_models()))
@@ -129,4 +138,4 @@ class Database:
         if close_one[0] in contained_names:
             return False, close_one[0]
 
-        return close_one[1] < 95, assumed_model_name_eng
+        return close_one[1] < 96, assumed_model_name_eng

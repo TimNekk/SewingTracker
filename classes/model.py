@@ -43,13 +43,22 @@ class Model:
                 continue
 
             if model_url is None:
-                logging.warning(f"Url for model \"{self.name}\" for market \"{market_name}\" not found")
-                continue
+                try:
+                    _, model_url = tuple(ph.parse_search(market_name, self.name).items())[0]
+                    if model_url:
+                        logging.info(f"Url for model \"{self.name}\" for market \"{market_name}\" found")
+                        self.set_url(market_name, model_url)
+                    else:
+                        logging.warning(f"Url for model \"{self.name}\" for market \"{market_name}\" not found")
+                        continue
+                except Exception as e:
+                    logging.warning(f"Url for model \"{self.name}\" for market \"{market_name}\" not found")
+                    continue
 
             try:
                 price = ph.parse_model(market_name, model_url)
             except Exception as e:
-                logging.error(e)
+                logging.warning(e)
                 continue
             history.update_last_history_point(market_name, price)
 
@@ -67,7 +76,10 @@ class Model:
         sql = f"ALTER TABLE \"{self.name}\" {'ADD' if add else 'DROP'} COLUMN \"{market_name}\" {'INT' if add else ''}"
         db.execute(sql, commit=True)
 
+    def set_url(self, market_name: str, url: str) -> None:
+        self._update(market_name, url)
+
     def _update(self, parameter, value) -> None:
         from loader import db
-        sql = f"UPDATE models SET {parameter} = {value} WHERE id = {self.id}"
+        sql = f"UPDATE models SET \"{parameter}\" = \"{value}\" WHERE id = {self.id}"
         db.execute(sql, commit=True)

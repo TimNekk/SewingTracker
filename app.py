@@ -1,7 +1,10 @@
 import logging
+from pprint import pprint
+from time import sleep
 import sys
-from typing import Optional
+from typing import Optional, List
 
+from classes import Model
 from loader import db, ph
 from data.config import input_path, open_model_history_path
 from excel.excel import ExcelHandler
@@ -17,7 +20,7 @@ class App:
 
         models = db.get_models()
         for index, model in enumerate(models):
-            logging.info(f"{index}/{len(models)} Exporting model \"{model.name}\"...")
+            logging.info(f"{index+1}/{len(models)} Exporting model \"{model.name}\"...")
 
             for market in db.markets:
                 history = model.get_history()
@@ -36,30 +39,56 @@ class App:
     def update_models(market: Optional[str] = None) -> None:
         logging.info("Updating models...")
 
-        models = tuple(filter(lambda model: model.has_markets, db.get_models()))
+        # models = tuple(filter(lambda model: model.has_markets, db.get_models()))
+        models = db.get_models()
         for index, model in enumerate(models):
             logging.info(f"{index+1}/{len(models)} Updating model \"{model.name}\"")
             model.update_prices(market)
 
-    def export_models_from_excel_to_db(self) -> None:
-        for name, price in self.excel.get_models().items():
-            try:
-                db.add_model(name, price)
-            except ValueError as e:
-                logging.error(e)
+    def export_models_from_excel_to_db(self):
+        # 1 есть в таблице, есть в дб (ничего)
+        # 2 есть в таблице, нет в дб (добавляем)
+        # 3 нет в таблице, есть в дб (убираем)
+        db_models = list(map(lambda model: model.name, db.get_models()))
+        excel_models = self.excel.get_models().items()
 
-    def add_model(self, model_name: str) -> None:
-        db.add_model(model_name)
+        for excel_name, excel_price in excel_models:
+            if excel_name in db_models:
+                db_models.remove(excel_name)
+            else:
+                db.add_model(excel_name, excel_price)
+                logging.info(f"Model \"{excel_name}\" added to db")
+
+        # Убираем те, которых нет в таблице
+        for model in db_models:
+            db.remove_model(model)
+            logging.info(f"Model \"{model}\" removed from db")
+
+    def add_model(self, model_name: str) -> Model:
+        model = db.add_model(model_name)
+        logging.info(f"{model_name} added to db")
         self.excel.add_model(model_name)
         self.excel.save()
-        logging.info(f"{model_name} added to db and excel")
+        logging.info(f"{model_name} added to excel")
+        return model
 
-    def update_market(self, market_name: str, market_url: str) -> None:
-        models = ph.parse_market(market_name, market_url)
+    def parse_models_from_markets(self):
+        # Merrylock 007/3000
+        # Merrylock 007 / 3000
+        self.parse_model_from_market("sewing-kingdom", "merrylock")
+        self.parse_model_from_market("sewing-kingdom", "necchi")
+        self.parse_model_from_market("textiletorg", "merrylock")
+
+    def parse_model_from_market(self, market_name: str, search: str) -> None:
+        models = ph.parse_search(market_name, search)
 
         for model_name, model_url in models.items():
             is_new, name = db.get_real_model_name(model_name)
-            print(f"Вывод: {f'Новая модель ({name})' if is_new else f'Уже есть ({name})'}\n")
+            logging.info(f"Вывод: {f'Новая модель ({name})' if is_new else f'Уже есть ({name})'}")
+
+            if is_new:
+                model = self.add_model(name)
+                model.set_url(market_name, model_url)
 
 
 if __name__ == '__main__':
@@ -70,6 +99,13 @@ if __name__ == '__main__':
     app = App(input_path, open_model_history_path)
 
     if mode == "update":
+        while True:
+            app.export_models_from_excel_to_db()
+            app.parse_models_from_markets()
+            app.update_models()
+            app.export_prices_form_db_to_excel()
+            sleep(3600)
+    elif mode == "update_model":
         app.update_models(args.get("market"))
         app.export_prices_form_db_to_excel()
     elif mode == "model":
@@ -77,33 +113,8 @@ if __name__ == '__main__':
     elif mode == "add_market":
         db.add_market(input("Введите название магазина: "))
     else:
-        app.update_market("sewing-kingdom", "https://sewing-kingdom.ru/index.php?route=product/search&search=merrylock")
-        # from parsing.parsers_handler import ParsersHandler
-        # print(ParsersHandler().parse("wildberries", "https://www.wildberries.ru/catalog/18507637/detail.aspx"))
+        # app.export_models_from_excel_to_db()
+        pprint(ph.parse_search("mvideo", "merrylock"))
+        # app.parse_model_from_market("sewing-kingdom", "https://sewing-kingdom.ru/index.php?route=product/search&search=necchi")
+        # app.parse_model_from_market("sewing-kingdom", "https://sewing-kingdom.ru/index.php?route=product/search&search=comfort")
 
-    # excel = ExcelHandler(input_path)
-    # try:
-    #     model = db.get_model("Merrylock 220")
-    #     excel.edit_model_market_cell(model.name, list(model.markets.keys())[0], "test")
-    # except ValueError as e:
-    #     print(e)
-
-# def update_products():
-#     products = get_products_from_sewing_kingdom()
-#     print(3)
-#     output = load(products, 'Продукты.xlsx')
-#     if output:
-#         email = EmailSender(Email.sender, Email.password)
-#         email.send(email=Email.receiver,
-#                    text="\n".join(output),
-#                    title=f"Отчет по \"Швейное королевство\" ({datetime.now().date()})")
-#
-#
-# if __name__ == '__main__':
-#     update_products()
-#
-#     schedule.every().day.do(update_products)
-#
-#     while True:
-#         schedule.run_pending()
-#         sleep(60)
