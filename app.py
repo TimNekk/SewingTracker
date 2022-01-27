@@ -93,11 +93,14 @@ class App:
                 model.set_url(market_name, model_url)
 
     def update(self):
-        self.export_models_from_excel_to_db()
-        self.parse_models_from_markets()
-        self.update_models()
-        self.export_prices_form_db_to_excel()
-        logging.info("\nГОТОВО! Можно открывать EXCEL\n")
+        try:
+            self.export_models_from_excel_to_db()
+            self.parse_models_from_markets()
+            self.update_models()
+            self.export_prices_form_db_to_excel()
+            logging.info("\nГОТОВО! Можно открывать EXCEL\n")
+        except Exception as e:
+            logging.error(e)
 
 
 if __name__ == '__main__':
