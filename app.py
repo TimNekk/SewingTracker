@@ -1,8 +1,11 @@
 import logging
+import time
 from pprint import pprint
 from time import sleep
 import sys
 from typing import Optional, List
+
+import schedule
 
 from classes import Model
 from loader import db, ph
@@ -39,7 +42,6 @@ class App:
     def update_models(market: Optional[str] = None) -> None:
         logging.info("Updating models...")
 
-        # models = tuple(filter(lambda model: model.has_markets, db.get_models()))
         models = db.get_models()
         for index, model in enumerate(models):
             logging.info(f"{index+1}/{len(models)} Updating model \"{model.name}\"")
@@ -90,6 +92,13 @@ class App:
                 model = self.add_model(name)
                 model.set_url(market_name, model_url)
 
+    def update(self):
+        self.export_models_from_excel_to_db()
+        self.parse_models_from_markets()
+        self.update_models()
+        self.export_prices_form_db_to_excel()
+        logging.info("\nГОТОВО! Можно открывать EXCEL\n")
+
 
 if __name__ == '__main__':
     args = dict(map(lambda arg: tuple(arg.split("=")), sys.argv[1:]))
@@ -99,12 +108,11 @@ if __name__ == '__main__':
     app = App(input_path, open_model_history_path)
 
     if mode == "update":
+        app.update()
+        schedule.every().hour.at(":00").do(app.update)
         while True:
-            app.export_models_from_excel_to_db()
-            app.parse_models_from_markets()
-            app.update_models()
-            app.export_prices_form_db_to_excel()
-            sleep(3600)
+            schedule.run_pending()
+            time.sleep(1)
     elif mode == "update_model":
         app.update_models(args.get("market"))
         app.export_prices_form_db_to_excel()
@@ -112,9 +120,4 @@ if __name__ == '__main__':
         app.excel.create_temp_model_file(db.get_model(args.get("model")), args.get("market"))
     elif mode == "add_market":
         db.add_market(input("Введите название магазина: "))
-    else:
-        # app.export_models_from_excel_to_db()
-        pprint(ph.parse_search("mvideo", "merrylock"))
-        # app.parse_model_from_market("sewing-kingdom", "https://sewing-kingdom.ru/index.php?route=product/search&search=necchi")
-        # app.parse_model_from_market("sewing-kingdom", "https://sewing-kingdom.ru/index.php?route=product/search&search=comfort")
 
