@@ -9,6 +9,9 @@ class HistoryPoint:
         self.prices: dict
         self._set_markets(*args)
 
+    def __str__(self):
+        return f"HistoryPoint \"{self.model_name}\" ({self.date}): {self.prices}"
+
     def _set_markets(self, *args) -> None:
         from loader import db
         self.prices = {name: price for name, price in zip(db.markets, args)}

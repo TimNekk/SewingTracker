@@ -9,6 +9,10 @@ class ModelHistory:
         self.model_name = model_name
         self.points = history_points
 
+    def __str__(self):
+        points = '\n'.join(map(str, self.points))
+        return f"History of {self.model_name}:\n{points}"
+
     @property
     def latest_point(self) -> HistoryPoint:
         if len(self.points) == 0:
