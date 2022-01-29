@@ -4,7 +4,7 @@ from parsing.websites import Parser
 from fuzzywuzzy import fuzz
 
 
-class Holodilnik(Parser):
+class HolodilnikParser(Parser):
     def __init__(self):
         self._price_selector = ".region_block .prc_val span.big"
         self._base_url = "https://www.holodilnik.ru"

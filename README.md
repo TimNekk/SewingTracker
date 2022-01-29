@@ -18,7 +18,7 @@
 - [x] [Wildberries](https://wildberries.ru)
 - [X] [Холодильник](https://www.holodilnik.ru) (Поиск)
 - [X] [Ситилинк](https://www.citilink.ru) (Поиск, но может сломаться из-за cookies)
-- [ ] [Sewingstore](https://www.sewingstore.ru/)
+- [X] [Sewingstore](https://www.sewingstore.ru/) (Поиск)
 - [ ] [ДНС](https://www.dns-shop.ru/)
 - [ ] [Техпорт](https://www.techport.ru/)
 - [ ] [Корпорация центр](https://kcentr.ru)

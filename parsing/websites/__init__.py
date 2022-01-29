@@ -7,5 +7,6 @@ from .sewingking import SewingKingParser
 from .textiletorg import TextiletorgParser
 from .ozon import OzonParser
 from .wildberries import WildberriesParser
-from .holodilnik import Holodilnik
-from .citilink import Citilink
+from .holodilnik import HolodilnikParser
+from .citilink import CitilinkParser
+from .sewingstore import SewingStoreParser
