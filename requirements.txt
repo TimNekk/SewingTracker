@@ -4,3 +4,4 @@ openpyxl
 environs
 schedule
 fuzzywuzzy
+selenium
