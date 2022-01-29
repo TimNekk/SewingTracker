@@ -20,6 +20,7 @@ class ParsersHandler:
             "sewingstore": SewingStoreParser,
             "dns": DNSParser,
             "techport": TechPortParser,
+            "kcentr": KcentrParser,
         }
 
     def parse_model(self, market_name: str, model_url: str) -> int:

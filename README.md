@@ -21,7 +21,7 @@
 - [x] [Sewingstore](https://www.sewingstore.ru/) (Поиск)
 - [x] [ДНС](https://www.dns-shop.ru/) (Поиск, selenium)
 - [x] [Техпорт](https://www.techport.ru/) (Поиск)
-- [ ] [Корпорация центр](https://kcentr.ru)
+- [x] [Корпорация центр](https://kcentr.ru) (Поиск)
 - [ ] [Шейте сами](https://www.veritaz.ru)
 - [ ] [Уик Трейд](https://weektrade.ru/)
 - [ ] [Дама Дома](https://damadoma.ru)
