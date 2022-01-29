@@ -16,7 +16,7 @@
 - [x] [Швей-Маш-СПБ](https://shveimash.spb.ru) (Поиск)
 - [x] [Текстильторг](https://www.textiletorg.ru) (Поиск)
 - [x] [Wildberries](https://wildberries.ru)
-- [ ] [Холодильник](https://www.holodilnik.ru)
+- [X] [Холодильник](https://www.holodilnik.ru) (Поиск)
 - [ ] [Ситилинк](https://www.citilink.ru)
 - [ ] [Sewingstore](https://www.sewingstore.ru/)
 - [ ] [ДНС](https://www.dns-shop.ru/)
