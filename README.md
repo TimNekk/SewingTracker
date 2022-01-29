@@ -17,7 +17,7 @@
 - [x] [Текстильторг](https://www.textiletorg.ru) (Поиск)
 - [x] [Wildberries](https://wildberries.ru)
 - [X] [Холодильник](https://www.holodilnik.ru) (Поиск)
-- [ ] [Ситилинк](https://www.citilink.ru)
+- [X] [Ситилинк](https://www.citilink.ru) (Поиск, но может сломаться из-за cookies)
 - [ ] [Sewingstore](https://www.sewingstore.ru/)
 - [ ] [ДНС](https://www.dns-shop.ru/)
 - [ ] [Техпорт](https://www.techport.ru/)

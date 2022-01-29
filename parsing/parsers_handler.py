@@ -16,6 +16,7 @@ class ParsersHandler:
             "ozon-gg": OzonParser,
             "wildberries": WildberriesParser,
             "holodilnik": Holodilnik,
+            "citilink": Citilink,
         }
 
     def parse_model(self, market_name: str, model_url: str) -> int:

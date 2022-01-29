@@ -32,7 +32,7 @@ class Parser:
 
         resp = session.get(url, params=params)
         if resp.status_code != 200:
-            raise ConnectionError(resp)
+            raise ConnectionError(resp.reason)
         return resp
 
     def _send_post_request(self, url: str, data: Optional[dict] = None, headers: Optional[dict] = None, cookies: Optional[RequestsCookieJar] = None) -> Response:

@@ -8,3 +8,4 @@ from .textiletorg import TextiletorgParser
 from .ozon import OzonParser
 from .wildberries import WildberriesParser
 from .holodilnik import Holodilnik
+from .citilink import Citilink
