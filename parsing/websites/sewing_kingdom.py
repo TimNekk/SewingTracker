@@ -8,7 +8,6 @@ from parsing.websites import Parser
 class SewingKingdomParser(Parser):
     def __init__(self):
         self._price_selector = ".pmip_buy_price"
-        self._models_selector = "#content > .product-grid"
         self._search_url = "https://sewing-kingdom.ru/index.php?route=product/search&search="
 
     def parse_model(self, url: str) -> int:
