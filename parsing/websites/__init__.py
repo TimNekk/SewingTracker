@@ -10,3 +10,4 @@ from .wildberries import WildberriesParser
 from .holodilnik import HolodilnikParser
 from .citilink import CitilinkParser
 from .sewingstore import SewingStoreParser
+from .dns import DNSParser

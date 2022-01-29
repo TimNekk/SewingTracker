@@ -18,6 +18,7 @@ class ParsersHandler:
             "holodilnik": HolodilnikParser,
             "citilink": CitilinkParser,
             "sewingstore": SewingStoreParser,
+            "dns": DNSParser,
         }
 
     def parse_model(self, market_name: str, model_url: str) -> int:
