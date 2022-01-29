@@ -20,7 +20,7 @@
 - [x] [Ситилинк](https://www.citilink.ru) (Поиск, selenium)
 - [x] [Sewingstore](https://www.sewingstore.ru/) (Поиск)
 - [x] [ДНС](https://www.dns-shop.ru/) (Поиск, selenium)
-- [ ] [Техпорт](https://www.techport.ru/)
+- [x] [Техпорт](https://www.techport.ru/) (Поиск)
 - [ ] [Корпорация центр](https://kcentr.ru)
 - [ ] [Шейте сами](https://www.veritaz.ru)
 - [ ] [Уик Трейд](https://weektrade.ru/)
