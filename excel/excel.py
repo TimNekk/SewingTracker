@@ -13,10 +13,9 @@ from loader import db
 
 
 class ExcelHandler:
-    def __init__(self, input_file_path: str, open_model_history_file: str, input_sheet_name: str = "input", models_start_cell: tuple = (4, 1), models_end_cell: tuple = (100, 20),
+    def __init__(self, input_file_path: str, input_sheet_name: str = "input", models_start_cell: tuple = (4, 1), models_end_cell: tuple = (100, 20),
                  markets_names_row: int = 3, models_names_column: int = 1, temp_directory: str = gettempdir()):
         self.file = input_file_path
-        self.open_model_history_file = open_model_history_file
         self.workbook = openpyxl.load_workbook(self.file, keep_vba=True)
 
         self.models_start_cell = models_start_cell

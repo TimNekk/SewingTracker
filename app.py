@@ -9,13 +9,13 @@ import schedule
 
 from classes import Model
 from loader import db, ph
-from data.config import input_path, open_model_history_path
+from data.config import input_path
 from excel.excel import ExcelHandler
 
 
 class App:
-    def __init__(self, excel_input_path: str, open_model_history_file: str):
-        self.excel = ExcelHandler(excel_input_path, open_model_history_file)
+    def __init__(self, excel_input_path: str):
+        self.excel = ExcelHandler(excel_input_path)
         logging.info("App Initialized")
 
     def export_prices_form_db_to_excel(self) -> None:
@@ -108,7 +108,7 @@ if __name__ == '__main__':
     mode = args.get("mode")
     logging.info(f"Started with params {args}")
 
-    app = App(input_path, open_model_history_path)
+    app = App(input_path)
 
     if mode == "update":
         app.update()
@@ -123,4 +123,10 @@ if __name__ == '__main__':
         app.excel.create_temp_model_file(db.get_model(args.get("model")), args.get("market"))
     elif mode == "add_market":
         db.add_market(input("Введите название магазина: "))
+    else:
+        # db.add_market(input("Введите название магазина: "))
+        # print(ph.parse_model("kcentr", "https://kcentr.ru/goods/overlok_merrylock_011/?utm_source=admitad&utm_medium=cpa&utm_campaign=admitad_442763&admitad_uid=f6f47f3685f56fe9e1a462863c37e8b1&tagtag_uid=f6f47f3685f56fe9e1a462863c37e8b1"))
+        # pprint(ph.parse_search("kcentr", "Necchi 2417"))
+        # app.update_models("kcentr")
+        app.export_prices_form_db_to_excel()
 
