@@ -5,3 +5,5 @@ environs
 schedule
 fuzzywuzzy
 selenium
+gspread
+oauth2client
