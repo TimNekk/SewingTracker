@@ -2,6 +2,7 @@
 chromedriver.exe
 test.html
 sheets/creds.json
+excel/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

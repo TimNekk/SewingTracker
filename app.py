@@ -1,25 +1,24 @@
 import logging
 import time
-from pprint import pprint
-from time import sleep
 import sys
-from typing import Optional, List
+from typing import Optional
 
 import schedule
+from oauth2client.service_account import ServiceAccountCredentials
 
 from classes import Model
 from loader import db, ph
-from data.config import input_path
-from excel.excel import ExcelHandler
+from data.config import credentials
+from sheets.sheets import Sheets
 
 
 class App:
-    def __init__(self, excel_input_path: str):
-        self.excel = ExcelHandler(excel_input_path)
+    def __init__(self, credentials: ServiceAccountCredentials):
+        self.sheets = Sheets(credentials)
         logging.info("App Initialized")
 
-    def export_prices_form_db_to_excel(self) -> None:
-        logging.info("Exporting prices form db to excel")
+    def export_prices_form_db_to_sheets(self) -> None:
+        logging.info("Exporting prices form db to sheets")
 
         models = db.get_models()
         for index, model in enumerate(models):
@@ -34,9 +33,8 @@ class App:
                     continue
 
                 if price is not None:
-                    self.excel.edit_model_market_cell(model_name=model.name, market_name=market, value=price)
-
-        self.excel.save()
+                    self.sheets.edit_model_market_cell(model_name=model.name, market_name=market, value=price)
+                    time.sleep(3)
 
     @staticmethod
     def update_models(market: Optional[str] = None) -> None:
@@ -47,19 +45,18 @@ class App:
             logging.info(f"{index+1}/{len(models)} Updating model \"{model.name}\"")
             model.update_prices(market)
 
-    def export_models_from_excel_to_db(self):
+    def export_models_from_sheets_to_db(self):
         # 1 есть в таблице, есть в дб (ничего)
         # 2 есть в таблице, нет в дб (добавляем)
         # 3 нет в таблице, есть в дб (убираем)
         db_models = list(map(lambda model: model.name, db.get_models()))
-        excel_models = self.excel.get_models().items()
 
-        for excel_name, excel_price in excel_models:
-            if excel_name in db_models:
-                db_models.remove(excel_name)
+        for model in self.sheets.get_models():
+            if model in db_models:
+                db_models.remove(model)
             else:
-                db.add_model(excel_name, excel_price)
-                logging.info(f"Model \"{excel_name}\" added to db")
+                db.add_model(model, 0)
+                logging.info(f"Model \"{model}\" added to db")
 
         # Убираем те, которых нет в таблице
         for model in db_models:
@@ -69,14 +66,11 @@ class App:
     def add_model(self, model_name: str) -> Model:
         model = db.add_model(model_name)
         logging.info(f"{model_name} added to db")
-        self.excel.add_model(model_name)
-        self.excel.save()
-        logging.info(f"{model_name} added to excel")
+        self.sheets.add_model(model_name)
+        logging.info(f"{model_name} added to sheets")
         return model
 
     def parse_models_from_markets(self):
-        # Merrylock 007/3000
-        # Merrylock 007 / 3000
         self.parse_model_from_market("sewing-kingdom", "merrylock")
         self.parse_model_from_market("sewing-kingdom", "necchi")
         self.parse_model_from_market("textiletorg", "merrylock")
@@ -94,11 +88,11 @@ class App:
 
     def update(self):
         try:
-            self.export_models_from_excel_to_db()
+            self.export_models_from_sheets_to_db()
             self.parse_models_from_markets()
             self.update_models()
-            self.export_prices_form_db_to_excel()
-            logging.info("\nГОТОВО! Можно открывать EXCEL\n")
+            self.export_prices_form_db_to_sheets()
+            logging.info("\nГОТОВО!\n")
         except Exception as e:
             logging.error(e)
 
@@ -108,7 +102,7 @@ if __name__ == '__main__':
     mode = args.get("mode")
     logging.info(f"Started with params {args}")
 
-    app = App(input_path)
+    app = App(credentials)
 
     if mode == "update":
         app.update()
@@ -118,9 +112,9 @@ if __name__ == '__main__':
             time.sleep(1)
     elif mode == "update_model":
         app.update_models(args.get("market"))
-        app.export_prices_form_db_to_excel()
+        app.export_prices_form_db_to_sheets()
     elif mode == "model":
-        app.excel.create_temp_model_file(db.get_model(args.get("model")), args.get("market"))
+        app.sheets.create_temp_model_file(db.get_model(args.get("model")), args.get("market"))
     elif mode == "add_market":
         db.add_market(input("Введите название магазина: "))
     else:
@@ -128,5 +122,5 @@ if __name__ == '__main__':
         # print(ph.parse_model("kcentr", "https://kcentr.ru/goods/overlok_merrylock_011/?utm_source=admitad&utm_medium=cpa&utm_campaign=admitad_442763&admitad_uid=f6f47f3685f56fe9e1a462863c37e8b1&tagtag_uid=f6f47f3685f56fe9e1a462863c37e8b1"))
         # pprint(ph.parse_search("kcentr", "Necchi 2417"))
         # app.update_models("kcentr")
-        app.export_prices_form_db_to_excel()
+        app.export_prices_form_db_to_sheets()
 
