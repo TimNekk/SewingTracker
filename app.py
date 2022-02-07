@@ -106,7 +106,7 @@ if __name__ == '__main__':
 
     if mode == "update":
         app.update()
-        schedule.every().hour.at(":00").do(app.update)
+        schedule.every(6).hours.do(app.update)
         while True:
             schedule.run_pending()
             time.sleep(1)
