@@ -18,11 +18,15 @@ class App:
         logging.info("App Initialized")
 
     def export_prices_form_db_to_sheets(self) -> None:
+        self.sheets.clear_sheet()
+        cells = self.sheets.get_cells()
+        markets = self.sheets.get_markets_column(cells)
+        models = self.sheets.get_models_column(cells)
         logging.info("Exporting prices form db to sheets")
 
-        models = db.get_models()
-        for index, model in enumerate(models):
-            logging.info(f"{index+1}/{len(models)} Exporting model \"{model.name}\"...")
+        db_models = db.get_models()
+        for model in db_models:
+            logging.info(f"Exporting model \"{model.name}\"...")
 
             for market in db.markets:
                 history = model.get_history()
@@ -33,8 +37,9 @@ class App:
                     continue
 
                 if price is not None:
-                    self.sheets.edit_model_market_cell(model_name=model.name, market_name=market, value=price)
-                    time.sleep(3)
+                    cells[models.index(model.name)][markets.index(market)] = price
+
+        self.sheets.update_cells(cells)
 
     @staticmethod
     def update_models(market: Optional[str] = None) -> None:
