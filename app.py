@@ -111,7 +111,8 @@ if __name__ == '__main__':
 
     if mode == "update":
         app.update()
-        schedule.every(6).hours.do(app.update)
+        schedule.every().day.at("06:00").do(app.update)
+        schedule.every().day.at("13:00").do(app.update)
         while True:
             schedule.run_pending()
             time.sleep(1)
