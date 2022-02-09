@@ -1,6 +1,7 @@
 import logging
 import time
 import sys
+from datetime import datetime
 from typing import Optional
 
 import schedule
@@ -39,6 +40,7 @@ class App:
                 if price is not None:
                     cells[models.index(model.name)][markets.index(market)] = price
 
+        cells[0][0] = f"Обновлено: {datetime.now()}"
         self.sheets.update_cells(cells)
 
     @staticmethod
