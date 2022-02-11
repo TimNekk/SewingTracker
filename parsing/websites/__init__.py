@@ -13,3 +13,4 @@ from .sewingstore import SewingStoreParser
 from .dns import DNSParser
 from .techport import TechPortParser
 from .kcentr import KcentrParser
+from .kulturabt import KulturabtParser

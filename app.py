@@ -2,6 +2,7 @@ import logging
 import time
 import sys
 from datetime import datetime
+from pprint import pprint
 from typing import Optional, Dict, Tuple, List
 
 import schedule
@@ -154,11 +155,10 @@ if __name__ == '__main__':
         app.sheets.create_temp_model_file(db.get_model(args.get("model")), args.get("market"))
     elif mode == "add_market":
         db.add_market(input("Введите название магазина: "))
-    else:
-        # db.add_market(input("Введите название магазина: "))
-        # print(ph.parse_model("kcentr", "https://kcentr.ru/goods/overlok_merrylock_011/?utm_source=admitad&utm_medium=cpa&utm_campaign=admitad_442763&admitad_uid=f6f47f3685f56fe9e1a462863c37e8b1&tagtag_uid=f6f47f3685f56fe9e1a462863c37e8b1"))
-        # pprint(ph.parse_search("kcentr", "Necchi 2417"))
+    # else:
+        # print(ph.parse_model("kulturabt", "https://moskva.kulturabt.ru/catalog/shveynoe_oborudovanie/koverlok/merrylock_0115a/"))
+        # pprint(ph.parse_search("kulturabt", "merrylock"))
         # app.update_models("kcentr")
-        a = app.export_prices_form_db_to_sheets()
-        app.notify(a)
+        # a = app.export_prices_form_db_to_sheets()
+        # app.notify(a)
 
