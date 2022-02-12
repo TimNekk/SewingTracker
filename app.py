@@ -49,9 +49,9 @@ class App:
                         continue
 
                     if price < mrc:
-                        if not wrong_prices.get(model.name):
-                            wrong_prices[model.name] = []
-                        wrong_prices[model.name].append((market, mrc, price))
+                        if not wrong_prices.get(market):
+                            wrong_prices[market] = []
+                        wrong_prices[market].append((model.name, mrc, price))
 
         cells[0][0] = f"Обновлено: {datetime.now()}"
         self.sheets.update_cells(cells)
@@ -114,10 +114,10 @@ class App:
 
         text = "<b>Список цен, ниже чем МРЦ</b>\n"
 
-        for index, (model, data) in enumerate(wrong_prices.items()):
-            text += f"\n{index + 1}) Модель <b>{model}</b>\n"
-            for (market, mrc, price) in data:
-                text += f"\tМагазин <b>{market}</b>: {price}р (МРЦ: {mrc}р)\n"
+        for index, (market, data) in enumerate(wrong_prices.items()):
+            text += f"\n{index + 1}) Магазин <b>{market}</b>\n"
+            for (model, mrc, price) in data:
+                text += f"▶ Модель <b>{model}</b>: {price}р (МРЦ: {mrc}р)\n"
 
         with open("data/notify.txt", 'w') as file:
             file.write(text)
