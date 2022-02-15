@@ -6,13 +6,13 @@ from parsing.websites import Parser
 
 class ElecityParser(Parser):
     def __init__(self):
-        self._price_selector = ".catalog_item_cur"
+        self._price_selector = ".catalog_item_cur_left"
         self._base_url = "https://elecity.ru"
         self._search_url = self._base_url + "/search/?q="
 
     def parse_model(self, url: str) -> int:
         soup = self._get_soup(url)
-        price = int("".join(re.findall(r"\d+", soup.select_one(self._price_selector).text)))
+        price = int("".join(re.findall(r"\d+", soup.select_one(self._price_selector).find_all("div")[-1].text)))
         return price
 
     def parse_search(self, search: str) -> Optional[dict[str, str]]:
