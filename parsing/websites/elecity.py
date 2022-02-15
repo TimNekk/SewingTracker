@@ -22,7 +22,8 @@ class ElecityParser(Parser):
         soup = self._get_soup(url)
 
         models_grid = soup.select(".catalog_index_block_item")
-        if not models_grid:
+        empty_search_page = soup.select_one(".empty_search_page")
+        if not models_grid or empty_search_page:
             return
 
         for model in models_grid:
