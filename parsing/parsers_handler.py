@@ -23,6 +23,7 @@ class ParsersHandler:
             "kcentr": KcentrParser,
             "kulturabt": KulturabtParser,
             "elecity": ElecityParser,
+            "sewingadvisor": SewingAdvisorParser,
         }
 
     def parse_model(self, market_name: str, model_url: str) -> int:

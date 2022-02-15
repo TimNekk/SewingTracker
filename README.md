@@ -24,7 +24,7 @@
 - [x] [Техпорт](https://www.techport.ru/) (Поиск)
 - [x] [Корпорация центр](https://kcentr.ru) (Поиск)
 - [X] [Elecity](https://elecity.ru/)
-- [ ] [Швейный советник](https://sewingadvisor.ru/)
+- [X] [Швейный советник](https://sewingadvisor.ru/)
 - [ ] [Шейте сами](https://www.veritaz.ru)
 - [ ] [Уик Трейд](https://weektrade.ru/)
 - [ ] [Дама Дома](https://damadoma.ru)
