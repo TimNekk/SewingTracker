@@ -42,5 +42,5 @@
   - [x] [Швейное Королевство](https://www.ozon.ru/seller/ooo-shveynoe-korolevstvo-147310/bytovaya-tehnika-10500/?miniapp=seller_147310)
   - [x] [SewCity](https://www.ozon.ru/seller/20801/?miniapp=seller_20801)
   - [x] [София](https://www.ozon.ru/seller/shveynyy-magazin-sofiya-39531/bytovaya-tehnika-10500/?miniapp=seller_39531)
-  - [ ] [1001 Швейная Машина](https://www.ozon.ru/seller/1001-shveynaya-mashina-233945/products/?miniapp=seller_233945)
-  - [ ] [Швейбери](https://www.ozon.ru/seller/shveyberi-74775/products/?miniapp=seller_74775)
+  - [x] [1001 Швейная Машина](https://www.ozon.ru/seller/1001-shveynaya-mashina-233945/products/?miniapp=seller_233945)
+  - [x] [Швейбери](https://www.ozon.ru/seller/shveyberi-74775/products/?miniapp=seller_74775)
