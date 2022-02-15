@@ -5,7 +5,7 @@ from .shveimashspb import ShveiMashSpbParser
 from .sewing_kingdom import SewingKingdomParser
 from .sewingking import SewingKingParser
 from .textiletorg import TextiletorgParser
-from .ozon import OzonParser
+from .ozon import *
 from .wildberries import WildberriesParser
 from .holodilnik import HolodilnikParser
 from .citilink import CitilinkParser

@@ -12,8 +12,6 @@ class ParsersHandler:
             "sewing-kingdom": SewingKingdomParser,
             "sewingking": SewingKingParser,
             "textiletorg": TextiletorgParser,
-            "ozon-sewing-store": OzonParser,
-            "ozon-gg": OzonParser,
             "wildberries": WildberriesParser,
             "holodilnik": HolodilnikParser,
             "citilink": CitilinkParser,
@@ -24,6 +22,7 @@ class ParsersHandler:
             "kulturabt": KulturabtParser,
             "elecity": ElecityParser,
             "sewingadvisor": SewingAdvisorParser,
+            "ozon-sewingadvisor": SewingAdvisorOzonParser,
         }
 
     def parse_model(self, market_name: str, model_url: str) -> int:
