@@ -23,6 +23,7 @@ class ParsersHandler:
             "elecity": ElecityParser,
             "sewingadvisor": SewingAdvisorParser,
             "ozon-sewingadvisor": SewingAdvisorOzonParser,
+            "ozon-shveyniymir": ShveyniyMirOzonParser,
         }
 
     def parse_model(self, market_name: str, model_url: str) -> int:
