@@ -117,7 +117,7 @@ class App:
         for index, (market, data) in enumerate(wrong_prices.items()):
             text += f"\n{index + 1}) Магазин <b>{market}</b>\n"
             for (model, mrc, price) in data:
-                text += f"▶ Модель <b>{model}</b>: {price}р (МРЦ: {mrc}р)\n"
+                text += f"- Модель <b>{model}</b>: {price}р (МРЦ: {mrc}р)\n"
 
         with open("data/notify.txt", 'w') as file:
             file.write(text)
