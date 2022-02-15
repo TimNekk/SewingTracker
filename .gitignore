@@ -2,6 +2,7 @@
 chromedriver.exe
 test.html
 sheets/creds.json
+sheets/sheets_test.py
 data/main.db
 
 # Byte-compiled / optimized / DLL files
