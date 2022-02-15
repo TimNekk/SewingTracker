@@ -122,6 +122,17 @@ class App:
         with open("data/notify.txt", 'w') as file:
             file.write(text)
 
+    @staticmethod
+    def add_missing_markets_to_db():
+        logging.info("Adding missing markets to DB...")
+        markets = ph.parsers.keys()
+        markets_db = db.markets
+        for market in markets:
+            if market not in markets_db:
+                logging.info(f"{market} added to DB")
+                db.add_market(market)
+        logging.info("Done!")
+
     def update(self):
         try:
             self.export_models_from_sheets_to_db()
@@ -129,9 +140,11 @@ class App:
             self.update_models()
             wrong_prices = self.export_prices_form_db_to_sheets()
             self.notify(wrong_prices)
-            logging.info("\nГОТОВО!\n")
+
         except Exception as e:
             logging.error(e)
+
+        logging.info("\nГОТОВО!\n")
 
 
 if __name__ == '__main__':
@@ -142,10 +155,9 @@ if __name__ == '__main__':
     app = App(credentials)
 
     if mode == "update":
+        app.add_missing_markets_to_db()
         app.update()
         schedule.every(3).hours.do(app.update)
-        # schedule.every().day.at("06:00").do(app.update)
-        # schedule.every().day.at("13:00").do(app.update)
         while True:
             schedule.run_pending()
             time.sleep(1)
@@ -158,8 +170,5 @@ if __name__ == '__main__':
         db.add_market(input("Введите название магазина: "))
     # else:
         # print(ph.parse_model("kulturabt", "https://moskva.kulturabt.ru/catalog/shveynoe_oborudovanie/koverlok/merrylock_0115a/"))
-        # pprint(ph.parse_search("kulturabt", "merrylock"))
-        # app.update_models("kcentr")
-        # a = app.export_prices_form_db_to_sheets()
-        # app.notify(a)
+        # pprint(ph.parse_search("ozon-shveyberi", "merrylock"))
 
