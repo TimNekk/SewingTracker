@@ -29,6 +29,8 @@ class OzonParser(Parser):
         for model in models_grid:
             try:
                 model_name = model.text
+                if model_name.lower() not in search.lower():
+                    continue
                 model_url = self._base_url + model['href']
                 models[model_name] = model_url
             except Exception:
