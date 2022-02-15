@@ -14,3 +14,4 @@ from .dns import DNSParser
 from .techport import TechPortParser
 from .kcentr import KcentrParser
 from .kulturabt import KulturabtParser
+from .elecity import ElecityParser

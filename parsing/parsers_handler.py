@@ -22,6 +22,7 @@ class ParsersHandler:
             "techport": TechPortParser,
             "kcentr": KcentrParser,
             "kulturabt": KulturabtParser,
+            "elecity": ElecityParser,
         }
 
     def parse_model(self, market_name: str, model_url: str) -> int:
