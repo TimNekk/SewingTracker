@@ -12,7 +12,6 @@ class ParsersHandler:
             "sewing-kingdom": SewingKingdomParser,
             "sewingking": SewingKingParser,
             "textiletorg": TextiletorgParser,
-            "wildberries": WildberriesParser,
             "holodilnik": HolodilnikParser,
             "citilink": CitilinkParser,
             "sewingstore": SewingStoreParser,
