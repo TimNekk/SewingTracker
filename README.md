@@ -36,7 +36,7 @@
 - [ ] [Швейный спектр](https://swshop.ru/)
 - [ ] [Культура Быта](https://moskva.kulturabt.ru/)
 - [ ] [ОнЛайнТрейд](https://www.onlinetrade.ru)
-- [ ] [Ozon](https://ozon.ru/)
+- [x] [Ozon](https://ozon.ru/)
   - [x] [Швейный советник](https://www.ozon.ru/seller/shveynyy-sovetnik-85859/?miniapp=seller_85859) (Поиск)
   - [x] [Швейный мир](https://www.ozon.ru/seller/67163/?miniapp=seller_67163)
   - [x] [Швейное Королевство](https://www.ozon.ru/seller/ooo-shveynoe-korolevstvo-147310/bytovaya-tehnika-10500/?miniapp=seller_147310)
