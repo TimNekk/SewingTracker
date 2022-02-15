@@ -25,6 +25,7 @@ class ParsersHandler:
             "ozon-sewingadvisor": SewingAdvisorOzonParser,
             "ozon-shveyniymir": ShveyniyMirOzonParser,
             "ozon-sewing-kingdom": SewingKingdomOzonParser,
+            "ozon-sewcity": SewCityOzonParser,
         }
 
     def parse_model(self, market_name: str, model_url: str) -> int:
