@@ -29,6 +29,8 @@ class S123Parser(Parser):
             try:
                 model_name_a = model.select_one(".product-item .title")
                 model_name = model_name_a.text
+                if search.lower() not in model_name.lower():
+                    continue
                 model_url = self._base_url + model_name_a['href']
                 models[model_name] = model_url
             except Exception:
