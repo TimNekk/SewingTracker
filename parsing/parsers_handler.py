@@ -30,6 +30,7 @@ class ParsersHandler:
             "ozon-shveyberi": ShveyberiOzonParser,
             "just": JustParser,
             "becompact": BeCompactParser,
+            "oldi": OldiParser,
         }
 
     def parse_model(self, market_name: str, model_url: str) -> int:

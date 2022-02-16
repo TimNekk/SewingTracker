@@ -18,3 +18,4 @@ from .elecity import ElecityParser
 from .sewingadvisor import SewingAdvisorParser
 from .just import JustParser
 from .becompact import BeCompactParser
+from .oldi import OldiParser
