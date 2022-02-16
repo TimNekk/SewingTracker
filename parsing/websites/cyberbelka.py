@@ -13,9 +13,14 @@ class CyberBelkaParser(Parser):
         self._base_url = "https://cyberbelka.ru"
         self._search_url = self._base_url + "/search/?q="
 
-    def parse_model(self, url: str) -> int:
+    def parse_model(self, url: str) -> Optional[int]:
         from loader import driver
         driver.get(url)
+        try:
+            if driver.find_element(By.CSS_SELECTOR, ".i__mini"):
+                return
+        except:
+            pass
         return int(re.findall(r"\d+", driver.find_element(By.CSS_SELECTOR, self._price_selector).text.replace(" ", ""))[0])
 
     def parse_search(self, search: str) -> Optional[dict[str, str]]:
