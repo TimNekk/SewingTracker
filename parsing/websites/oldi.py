@@ -1,4 +1,5 @@
 import re
+from datetime import datetime, timedelta
 from time import sleep
 from typing import Optional
 
@@ -33,7 +34,8 @@ class OldiParser(Parser):
 
         driver.get(url)
 
-        while True:
+        time = datetime.now()
+        while datetime.now() - time < timedelta(seconds=10):
             models_grid = driver.find_elements(By.CSS_SELECTOR, "#digi-shield .digi-product__label")
             sleep(0.5)
             if models_grid:
