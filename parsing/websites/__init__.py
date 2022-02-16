@@ -21,3 +21,4 @@ from .becompact import BeCompactParser
 from .oldi import OldiParser
 from .elmall import ElMallParser
 from .bit2 import Bit2Parser
+from .skyey import SkyeyParser

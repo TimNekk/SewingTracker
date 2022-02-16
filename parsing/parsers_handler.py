@@ -33,6 +33,7 @@ class ParsersHandler:
             "oldi": OldiParser,
             "elmall": ElMallParser,
             "2bit": Bit2Parser,
+            "skyey": SkyeyParser,
         }
 
     def parse_model(self, market_name: str, model_url: str) -> int:
