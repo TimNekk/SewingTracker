@@ -1,5 +1,8 @@
 import re
 from typing import Optional
+from time import sleep
+
+from selenium.webdriver.common.by import By
 
 from parsing.websites import Parser
 
@@ -8,7 +11,7 @@ class BeCompactParser(Parser):
     def __init__(self):
         self._price_selector = ".product-price__new"
         self._base_url = "https://becompact.ru"
-        self._search_url = self._base_url + "/personal/search/full"
+        self._search_url = self._base_url + "/search?q="
 
     def parse_model(self, url: str) -> int:
         soup = self._get_soup(url)
@@ -16,22 +19,28 @@ class BeCompactParser(Parser):
         return price
 
     def parse_search(self, search: str) -> Optional[dict[str, str]]:
+        from loader import driver
+
+        url = self._search_url + search
         models = {}
 
-        response = self._send_post_request(self._search_url + "category=&p%5Bs%5D=0&p%5Bcv%5D=0&q=merrylock&f=1")
-        print(response.content)
+        driver.get(url)
 
-        soup = 1
-        models_grid = soup.find_all("div", class_="block-product-card block-product-card_minsize")
-        print(models_grid)
-        if not models_grid:
-            return
+        while True:
+            models_grid = driver.find_elements(By.CSS_SELECTOR, ".block-product-card__data .block-product-card__name")
+            try:
+                if driver.find_element(By.CSS_SELECTOR, ".block-column__title"):
+                    return
+            except:
+                pass
+            sleep(0.5)
+            if models_grid:
+                break
 
         for model in models_grid:
             try:
-                model_name_a = model.select_one(".link-nostyle")
-                model_name = model_name_a.text
-                model_url = self._base_url + model_name_a['href']
+                model_name = model.text
+                model_url = model.get_attribute("href")
                 models[model_name] = model_url
             except Exception:
                 pass
