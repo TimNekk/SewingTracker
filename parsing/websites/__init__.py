@@ -17,3 +17,4 @@ from .kulturabt import KulturabtParser
 from .elecity import ElecityParser
 from .sewingadvisor import SewingAdvisorParser
 from .just import JustParser
+from .becompact import BeCompactParser
