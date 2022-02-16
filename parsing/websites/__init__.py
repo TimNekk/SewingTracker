@@ -20,3 +20,4 @@ from .just import JustParser
 from .becompact import BeCompactParser
 from .oldi import OldiParser
 from .elmall import ElMallParser
+from .bit2 import Bit2Parser

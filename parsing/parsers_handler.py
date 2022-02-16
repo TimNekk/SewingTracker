@@ -32,6 +32,7 @@ class ParsersHandler:
             "becompact": BeCompactParser,
             "oldi": OldiParser,
             "elmall": ElMallParser,
+            "2bit": Bit2Parser,
         }
 
     def parse_model(self, market_name: str, model_url: str) -> int:
