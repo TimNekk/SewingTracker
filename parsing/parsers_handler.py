@@ -28,6 +28,7 @@ class ParsersHandler:
             "ozon-1001": Ozon1001Parser,
             "ozon-sofia": SofiaOzonParser,
             "ozon-shveyberi": ShveyberiOzonParser,
+            "just": JustParser,
         }
 
     def parse_model(self, market_name: str, model_url: str) -> int:
