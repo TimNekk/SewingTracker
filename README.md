@@ -27,6 +27,7 @@
 - [x] [BeCompact](https://becompact.ru/) (Поиск, selenium)
 - [x] [Just](https://just.ru/) (Поиск)
 - [x] [Oldi](https://www.oldi.ru/) (Поиск, selenium)
+- [x] [ElMall](http://dbs.elmall50.ru/) (Поиск)
 - [ ] [Шейте сами](https://www.veritaz.ru)
 - [ ] [Уик Трейд](https://weektrade.ru/)
 - [ ] [Дама Дома](https://damadoma.ru)
