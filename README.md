@@ -26,6 +26,7 @@
 - [X] [Швейный советник](https://sewingadvisor.ru/) (Поиск)
 - [x] [BeCompact](https://becompact.ru/) (Поиск, selenium)
 - [x] [Just](https://just.ru/) (Поиск)
+- [x] [Oldi](https://www.oldi.ru/) (Поиск, selenium)
 - [ ] [Шейте сами](https://www.veritaz.ru)
 - [ ] [Уик Трейд](https://weektrade.ru/)
 - [ ] [Дама Дома](https://damadoma.ru)
