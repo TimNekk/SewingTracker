@@ -24,6 +24,7 @@
 - [x] [Корпорация центр](https://kcentr.ru) (Поиск)
 - [X] [Elecity](https://elecity.ru/) (Поиск)
 - [X] [Швейный советник](https://sewingadvisor.ru/) (Поиск)
+- [x] [BeCompact](https://becompact.ru/)
 - [x] [Just](https://just.ru/)
 - [ ] [Шейте сами](https://www.veritaz.ru)
 - [ ] [Уик Трейд](https://weektrade.ru/)
