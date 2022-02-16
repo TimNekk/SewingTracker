@@ -16,3 +16,4 @@ from .kcentr import KcentrParser
 from .kulturabt import KulturabtParser
 from .elecity import ElecityParser
 from .sewingadvisor import SewingAdvisorParser
+from .just import JustParser
