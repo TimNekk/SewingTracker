@@ -12,6 +12,8 @@ class Bit2Parser(Parser):
 
     def parse_model(self, url: str) -> int:
         soup = self._get_soup(url)
+        if not soup.select_one(".product__buy__on__page .product__available").text:
+            return
         price = int("".join(re.findall(r"\d+", soup.select(self._price_selector)[1].text)))
         return price
 
