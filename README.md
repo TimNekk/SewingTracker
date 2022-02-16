@@ -31,6 +31,7 @@
 - [x] [2Bit](https://2bit.ru/) (Поиск)
 - [x] [Skyey](https://skyey.ru/) (Поиск)
 - [x] [Кибербелка](https://cyberbelka.ru/) (Поиск, selenium)
+- [x] [123](https://123.ru/) (Поиск)
 - [ ] [Шейте сами](https://www.veritaz.ru)
 - [ ] [Уик Трейд](https://weektrade.ru/)
 - [ ] [Дама Дома](https://damadoma.ru)

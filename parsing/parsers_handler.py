@@ -35,6 +35,7 @@ class ParsersHandler:
             "2bit": Bit2Parser,
             "skyey": SkyeyParser,
             "cyberbelka": CyberBelkaParser,
+            "123": S123Parser,
         }
 
     def parse_model(self, market_name: str, model_url: str) -> int:
