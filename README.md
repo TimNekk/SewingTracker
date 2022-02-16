@@ -28,6 +28,7 @@
 - [x] [Just](https://just.ru/) (Поиск)
 - [x] [Oldi](https://www.oldi.ru/) (Поиск, selenium)
 - [x] [ElMall](http://dbs.elmall50.ru/) (Поиск)
+- [x] [2Bit](https://2bit.ru/) (Поиск)
 - [ ] [Шейте сами](https://www.veritaz.ru)
 - [ ] [Уик Трейд](https://weektrade.ru/)
 - [ ] [Дама Дома](https://damadoma.ru)
