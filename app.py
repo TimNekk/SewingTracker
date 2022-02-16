@@ -22,7 +22,7 @@ class App:
     def export_prices_form_db_to_sheets(self):
         self.sheets.clear_sheet()
         cells = self.sheets.get_cells()
-        markets = self.sheets.get_markets_column(cells)
+        markets = list(map(str, self.sheets.get_markets_column(cells)))
         models = self.sheets.get_models_column(cells)
         wrong_prices = {}
         logging.info("Exporting prices form db to sheets")
