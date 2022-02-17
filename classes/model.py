@@ -42,7 +42,7 @@ class Model:
             if market is not None and market_name != market:
                 continue
 
-            if model_url is None:
+            if not model_url:
                 try:
                     _, model_url = tuple(ph.parse_search(market_name, self.name).items())[0]
                     if model_url:
