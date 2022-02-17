@@ -21,6 +21,8 @@ class OldiParser(Parser):
         driver.get(url)
 
         try:
+            if driver.find_element(By.CSS_SELECTOR, ".cte_w_aval").text == "Нет в наличии":
+                return
             price = int(re.findall(r"\d+", driver.find_element(By.CSS_SELECTOR, self._price_selector).text.replace(" ", ""))[0])
             return price
         except Exception:
