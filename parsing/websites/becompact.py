@@ -2,6 +2,7 @@ import re
 from typing import Optional
 from time import sleep
 
+from fuzzywuzzy import fuzz
 from selenium.webdriver.common.by import By
 
 from parsing.websites import Parser
@@ -39,9 +40,11 @@ class BeCompactParser(Parser):
 
         for model in models_grid:
             try:
-                model_name = model.text
-                model_url = model.get_attribute("href")
-                models[model_name] = model_url
+                model_name = re.sub(r"[а-яА-Я]+", "", model.text.split("[")[0]).strip()
+
+                if fuzz.ratio(model_name, search) >= 96:
+                    model_url = model.get_attribute("href")
+                    models[model_name] = model_url
             except Exception:
                 pass
 
