@@ -1,6 +1,8 @@
 import re
 from typing import Optional
 
+from fuzzywuzzy import fuzz
+
 from parsing.websites import Parser
 
 
@@ -30,9 +32,10 @@ class Bit2Parser(Parser):
         for model in models_grid:
             try:
                 model_name_a = model.find_all("a", class_="__black")[1]
-                model_name = model_name_a.text.replace("\r\n", "").strip()
-                model_url = self._base_url + model_name_a['href']
-                models[model_name] = model_url
+                model_name = re.sub(r"[а-яА-Я]+", "", model_name_a.text.replace("\r\n", "").strip()).strip()
+                if fuzz.ratio(model_name, search) >= 96:
+                    model_url = self._base_url + model_name_a['href']
+                    models[model_name] = model_url
             except Exception:
                 pass
 
