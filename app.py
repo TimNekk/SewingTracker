@@ -2,8 +2,7 @@ import logging
 import time
 import sys
 from datetime import datetime
-from pprint import pprint
-from typing import Optional, Dict, Tuple, List
+from typing import Optional
 
 import schedule
 from oauth2client.service_account import ServiceAccountCredentials
@@ -40,7 +39,10 @@ class App:
                     continue
 
                 if price is not None:
-                    cells[models.index(model.name)][markets.index(market)] = price
+                    try:
+                        cells[models.index(model.name)][markets.index(market)] = f"=ГИПЕРССЫЛКА(\"{model.markets.get(market)}\"; {price})"
+                    except Exception as e:
+                        logging.error(e)
 
                     # Уведомление
                     try:
@@ -70,7 +72,7 @@ class App:
         # 1 есть в таблице, есть в дб (ничего)
         # 2 есть в таблице, нет в дб (добавляем)
         # 3 нет в таблице, есть в дб (убираем)
-        db_models = list(map(lambda model: model.name, db.get_models()))
+        db_models = list(map(lambda m: m.name, db.get_models()))
 
         for model in self.sheets.get_models():
             if model in db_models:
@@ -164,8 +166,8 @@ if __name__ == '__main__':
     elif mode == "update_model":
         app.update_models(args.get("market"))
         app.export_prices_form_db_to_sheets()
-    elif mode == "model":
-        app.sheets.create_temp_model_file(db.get_model(args.get("model")), args.get("market"))
+    # elif mode == "model":
+    #     app.sheets.create_temp_model_file(db.get_model(args.get("model")), args.get("market"))
     elif mode == "add_market":
         db.add_market(input("Введите название магазина: "))
     # else:
