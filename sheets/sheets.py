@@ -150,7 +150,11 @@ class Sheets:
         return list(map(lambda row: row[self.models_names_column - 1], cells))
 
     def update_cells(self, cells: List[List[str]], start: str = "A1") -> None:
-        self.sheet.update(start, cells)
+        for row in cells:
+            for cell in row:
+                if cell == "+":
+                    cell = "`+"
+        self.sheet.update(start, cells, value_input_option="USER_ENTERED")
 
 
 if __name__ == "__main__":
