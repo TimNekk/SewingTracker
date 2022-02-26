@@ -12,10 +12,9 @@ class SkyeyParser(Parser):
 
     def parse_model(self, url: str) -> Optional[int]:
         soup = self._get_soup(url)
-        if soup.select_one(".quantity_block_wrapper").text.strip() != "Есть в наличии":
-            return
-        price = int("".join(re.findall(r"\d+", soup.select_one(self._price_selector).text)))
-        return price
+        if soup.select_one(".quantity_block_wrapper").text.strip() == "Есть в наличии":
+            price = int("".join(re.findall(r"\d+", soup.select_one(self._price_selector).text)))
+            return price
 
     def parse_search(self, search: str) -> Optional[dict[str, str]]:
         url = self._search_url + search
