@@ -12,8 +12,9 @@ class S123Parser(Parser):
 
     def parse_model(self, url: str) -> int:
         soup = self._get_soup(url)
-        price = int("".join(re.findall(r"\d+", soup.select_one(self._price_selector).text)))
-        return price
+        if not soup.select_one(".pc-wrapper-right div.-unavailable div.h3, .pc-wrapper-right div.-unavailable h3"):
+            price = int("".join(re.findall(r"\d+", soup.select_one(self._price_selector).text)))
+            return price
 
     def parse_search(self, search: str) -> Optional[dict[str, str]]:
         url = self._search_url + search
