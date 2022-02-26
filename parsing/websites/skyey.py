@@ -10,8 +10,10 @@ class SkyeyParser(Parser):
         self._base_url = "https://skyey.ru"
         self._search_url = self._base_url + "/catalog/?s=Найти&q="
 
-    def parse_model(self, url: str) -> int:
+    def parse_model(self, url: str) -> Optional[int]:
         soup = self._get_soup(url)
+        if soup.select_one(".quantity_block_wrapper").text.strip() != "Есть в наличии":
+            return
         price = int("".join(re.findall(r"\d+", soup.select_one(self._price_selector).text)))
         return price
 
