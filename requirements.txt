@@ -7,3 +7,4 @@ fuzzywuzzy
 selenium
 gspread
 oauth2client
+lxml
