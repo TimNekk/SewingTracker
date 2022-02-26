@@ -31,11 +31,18 @@ class Sheets:
     def add_model(self, model_name: str) -> None:
         self.sheet.update_cell(len(self.sheet.col_values(self.models_start_column)) + 1, self.models_start_column, model_name)
 
-    def clear_sheet(self) -> None:
-        self.sheet.batch_clear(["D4:D1000", "F4:FF1000"])
+    def get_cells(self, clear=False) -> List[List[str]]:
+        cells = self.sheet.get_all_values(value_render_option=ValueRenderOption.unformatted)
 
-    def get_cells(self) -> List[List[str]]:
-        return self.sheet.get_all_values(value_render_option=ValueRenderOption.unformatted)
+        if clear:
+            for row in range(len(cells)):
+                if row < 3:
+                    continue
+                for col in range(len(cells[row])):
+                    if col == 3 or col > 4:
+                        cells[row][col] = ''
+
+        return cells
 
     def get_markets_column(self, cells: Optional[List[List[str]]] = None) -> List[str]:
         if not cells:

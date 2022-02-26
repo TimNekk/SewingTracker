@@ -19,7 +19,7 @@ class App:
         logging.info("App Initialized")
 
     def export_prices_form_db_to_sheets(self):
-        cells = self.sheets.get_cells()
+        cells = self.sheets.get_cells(clear=True)
         markets = list(map(str, self.sheets.get_markets_column(cells)))
         models = self.sheets.get_models_column(cells)
         wrong_prices = {}
@@ -55,7 +55,6 @@ class App:
                         wrong_prices[market].append((model.name, mrc, price))
 
         cells[0][0] = f"Обновлено: {datetime.now().strftime('%d/%m/%Y %H:%M')}"
-        self.sheets.clear_sheet()
         self.sheets.update_cells(cells)
         return wrong_prices
 
