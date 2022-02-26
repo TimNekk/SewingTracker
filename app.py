@@ -54,7 +54,7 @@ class App:
                             wrong_prices[market] = []
                         wrong_prices[market].append((model.name, mrc, price))
 
-        cells[0][0] = f"Обновлено: {datetime.now()}"
+        cells[0][0] = f"Обновлено: {datetime.now().strftime('%d/%m/%Y %H:%M')}"
         self.sheets.clear_sheet()
         self.sheets.update_cells(cells)
         return wrong_prices
@@ -170,7 +170,7 @@ if __name__ == '__main__':
     #     app.sheets.create_temp_model_file(db.get_model(args.get("model")), args.get("market"))
     elif mode == "add_market":
         db.add_market(input("Введите название магазина: "))
-    # else:
-        # print(ph.parse_model("kulturabt", "https://moskva.kulturabt.ru/catalog/shveynoe_oborudovanie/koverlok/merrylock_0115a/"))
+    else:
+        print(ph.parse_model("skyey", "https://skyey.ru/catalog/bytovaya_tekhnika/shveynye-mashinki/shveynye-mashiny/940848/"))
         # pprint(ph.parse_search("ozon-shveyberi", "merrylock"))
 
