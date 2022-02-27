@@ -57,7 +57,6 @@ class App:
                             wrong_prices[market] = []
                         wrong_prices[market].append((model.name, mrc, price))
 
-        self.sheets.set_status(Status.done)
         self.sheets.update_cells(cells)
         return wrong_prices
 
@@ -145,6 +144,7 @@ class App:
             self.update_models()
             wrong_prices = self.export_prices_form_db_to_sheets()
             self.notify(wrong_prices)
+            self.sheets.set_status(Status.done)
 
         except Exception as e:
             logging.error(e)
