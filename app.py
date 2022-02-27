@@ -10,6 +10,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 from classes import Model
 from loader import db, ph
 from data.config import credentials
+from sheets import Status
 from sheets.sheets import Sheets
 
 
@@ -19,6 +20,8 @@ class App:
         logging.info("App Initialized")
 
     def export_prices_form_db_to_sheets(self):
+        self.sheets.set_status(Status.exporting_to_sheets)
+
         cells = self.sheets.get_cells(clear=True)
         markets = list(map(str, self.sheets.get_markets_column(cells)))
         models = self.sheets.get_models_column(cells)
@@ -54,23 +57,22 @@ class App:
                             wrong_prices[market] = []
                         wrong_prices[market].append((model.name, mrc, price))
 
-        cells[0][0] = f"Обновлено: {datetime.now().strftime('%d/%m/%Y %H:%M')}"
+        self.sheets.set_status(Status.done)
         self.sheets.update_cells(cells)
         return wrong_prices
 
-    @staticmethod
-    def update_models(market: Optional[str] = None) -> None:
+    def update_models(self, market: Optional[str] = None) -> None:
         logging.info("Updating models...")
 
         models = db.get_models()
         for index, model in enumerate(models):
             logging.info(f"{index+1}/{len(models)} Updating model \"{model.name}\"")
+            self.sheets.set_status(Status.parsing_model, model.name)
             model.update_prices(market)
 
     def export_models_from_sheets_to_db(self) -> None:
-        # 1 есть в таблице, есть в дб (ничего)
-        # 2 есть в таблице, нет в дб (добавляем)
-        # 3 нет в таблице, есть в дб (убираем)
+        self.sheets.set_status(Status.exporting_to_db)
+
         db_models = list(map(lambda m: m.name, db.get_models()))
 
         for model in self.sheets.get_models():
@@ -93,11 +95,13 @@ class App:
         return model
 
     def parse_models_from_markets(self) -> None:
-        self.parse_model_from_market("sewing-kingdom", "merrylock")
-        self.parse_model_from_market("sewing-kingdom", "necchi")
-        self.parse_model_from_market("textiletorg", "merrylock")
+        self.parse_models_from_market("sewing-kingdom", "merrylock")
+        self.parse_models_from_market("sewing-kingdom", "necchi")
+        self.parse_models_from_market("textiletorg", "merrylock")
 
-    def parse_model_from_market(self, market_name: str, search: str) -> None:
+    def parse_models_from_market(self, market_name: str, search: str) -> None:
+        self.sheets.set_status(Status.parsing_market, market_name)
+
         models = ph.parse_search(market_name, search)
 
         for model_name, model_url in models.items():
@@ -170,6 +174,6 @@ if __name__ == '__main__':
     elif mode == "add_market":
         db.add_market(input("Введите название магазина: "))
     else:
-        print(ph.parse_model("skyey", "https://skyey.ru/catalog/bytovaya_tekhnika/shveynye-mashinki/shveynye-mashiny/940848/"))
+        print(ph.parse_model("mvideo", "https://www.mvideo.ru/products/overlok-merrylock-0055-50115390"))
         # pprint(ph.parse_search("ozon-shveyberi", "merrylock"))
 

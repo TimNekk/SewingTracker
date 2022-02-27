@@ -1,8 +1,11 @@
+from datetime import datetime
 from typing import Union, List, Optional
 
 import gspread
 from gspread.utils import ValueRenderOption
 from oauth2client.service_account import ServiceAccountCredentials
+
+from sheets import Status
 
 
 class Sheets:
@@ -60,3 +63,9 @@ class Sheets:
                 if cells[row_index][cell_index] == "+":
                     cells[row_index][cell_index] = "'+"
         self.sheet.update(start, cells, value_input_option="USER_ENTERED")
+
+    def set_status(self, status: Status, info: Optional[str] = None) -> None:
+        text = status.value
+        if (status is Status.parsing_market or status is Status.parsing_model) and info:
+            text += f" {info}"
+        self.sheet.update_cell(1, 1, f"{text}\n{datetime.now().strftime('%d/%m/%Y %H:%M')}")
