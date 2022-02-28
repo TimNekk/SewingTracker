@@ -26,3 +26,4 @@ from .cyberbelka import CyberBelkaParser
 from .s123 import S123Parser
 from .veritaz import VeritazParser
 from .weektrade import WeekTradeParser
+from .damadoma import DamaDomaParser

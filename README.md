@@ -34,7 +34,7 @@
 - [x] [123](https://123.ru/) (Поиск)
 - [x] [Шейте сами](https://www.veritaz.ru) (Поиск)
 - [x] [Уик Трейд](https://weektrade.ru/) (Поиск)
-- [ ] [Дама Дома](https://damadoma.ru)
+- [x] [Дама Дома](https://damadoma.ru) (Поиск)
 - [ ] [Сьютайм](https://sewtime.ru/)
 - [ ] [Sodbik](https://www.sodbik.ru/)
 - [ ] [Швеймаркет](https://www.redcost.ru)
