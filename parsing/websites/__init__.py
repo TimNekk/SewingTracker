@@ -24,3 +24,4 @@ from .bit2 import Bit2Parser
 from .skyey import SkyeyParser
 from .cyberbelka import CyberBelkaParser
 from .s123 import S123Parser
+from .veritaz import VeritazParser
