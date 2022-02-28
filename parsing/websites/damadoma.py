@@ -1,14 +1,16 @@
 import re
 from typing import Optional
 
+from fuzzywuzzy import fuzz
+
 from parsing.websites import Parser
 
 
 class DamaDomaParser(Parser):
     def __init__(self):
         self._price_selector = ".info_item .middle_info .prices .price"
-        self._base_url = "https://skyey.ru"
-        self._search_url = self._base_url + "/catalog/?s=Найти&q="
+        self._base_url = "https://damadoma.ru"
+        self._search_url = self._base_url + "/index.php?searchstring="
 
     def parse_model(self, url: str) -> Optional[int]:
         soup = self._get_soup(url)
@@ -22,15 +24,17 @@ class DamaDomaParser(Parser):
 
         soup = self._get_soup(url)
 
-        models_grid = soup.select(".catalog_item .item-title a, .view-item .item-title a span")
+        models_grid = soup.select(".cat")
         if not models_grid:
             return
 
         for model in models_grid:
             try:
-                model_name = model.text
-                model_url = self._base_url + model['href']
-                models[model_name] = model_url
+                model_name = re.sub(r"[а-яА-Я]+", "", model.text.split("[")[0]).strip()
+
+                if fuzz.ratio(model_name, search) >= 90:
+                    model_url = self._base_url + "/" + model['href']
+                    models[model_name] = model_url
             except Exception:
                 pass
 
