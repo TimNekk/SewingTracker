@@ -39,6 +39,7 @@ class ParsersHandler:
             "veritaz": VeritazParser,
             "weektrade": WeekTradeParser,
             "damadoma": DamaDomaParser,
+            "sewtime": SewTimeParser,
         }
 
     def parse_model(self, market_name: str, model_url: str) -> int:
